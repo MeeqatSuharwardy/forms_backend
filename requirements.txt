@@ -1,0 +1,12 @@
+pdfkit
+os
+flask
+PIL
+base64
+io
+datetime
+selenium
+img2pdf
+flask_httpauth
+Werkzeug
+flask_cors

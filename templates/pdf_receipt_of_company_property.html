@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Acknowledgement of Receipt of Company Property</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        header img {
+            margin-bottom: 10px;
+        }
+        h2 {
+            margin-bottom: 30px;
+        }
+        p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .signature-area {
+            text-align: center;
+            flex-basis: 45%;
+        }
+        .signature-line {
+            border-bottom: 2px solid #000;
+            margin-top: 10px;
+            padding: 5px;
+            background-color: #f0f0f0; /* Mimics the canvas background */
+        }
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="{{logo_path}}" alt="Company Logo" style="width: 200px;">
+            <address>
+                319 Tampa Road<br>
+                Oldsmar, FL 34677<br>
+                Phone (727) 733-6111 Fax (727) 733-6002<br>
+                www.healthandpsychiatry.com
+            </address>
+        </header>
+
+        <h2>Acknowledgement of Receipt of Company Property</h2>
+
+        <p><strong>Name:</strong> {{ employee_name }}</p>
+        <p><strong>Date:</strong> {{ current_date }}</p>
+        <p><strong>Description of Equipment or Property Issued to Employee:</strong></p>
+        <p>{{ equipment_description }}</p>
+
+        <p>By signing this form, I agree to the following: I am responsible for the equipment or property issued to me; I will use it/them in the manner intended; I will be responsible for any damage done (excluding normal wear and tear); upon separation from the Company, I will return the item(s) issued to me in proper working order (excluding normal wear & tear); I will replace any items issued to me that are damaged or lost at my expense; I authorize a payroll deduction to cover the replacement cost of any item issued to me that is not returned for whatever reason, or is not returned in good working order.</p>
+
+        <div class="signature-section">
+            <div class="signature-area">
+                <p><strong>Employee Signature:</strong></p>
+<img src="{{ employee_signature_placeholder }}" alt="Employee Signature" style="height: 100px;">
+                <p>Date: {{ employee_signed_date }}</p>
+            </div>
+            <div class="signature-area">
+                <p><strong>Manager Signature:</strong></p>
+<img src="{{ manager_signature_placeholder }}" alt="Manager Signature" style="height: 100px;">
+                <p>Date: {{ manager_signed_date }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; {{ current_year }} Health and Psychiatry. All rights reserved.
+    </div>
+</body>
+</html>

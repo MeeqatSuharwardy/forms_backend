@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Emergency Contacts</title>
+       <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #fff;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .submit-btn {
+    /*display: block;*/
+    width: 50%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #28a745;
+    align-content: center;
+    justify-content: center;
+
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+}
+        header, form {
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 9px;
+        }
+        img {
+            margin: 0 auto 20px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #009688;
+            margin-bottom: 0;
+        }
+        h2 {
+            font-size: 22px;
+            color: #333;
+        }
+        h3 {
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+        }
+        form {
+            border: 2px solid #009688;
+            padding: 20px;
+            margin-top: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .signature-line {
+            border-top: 1px solid #000;
+            width: 300px;
+            margin: 20px auto;
+            padding-top: 10px;
+        }
+        .form-group-inline {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .form-group-inline .form-group {
+            flex-basis: 48%;
+            min-width: 200px;
+        }
+        .authorization {
+            text-align: left;
+            font-size: 12px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 20px;
+        }
+        .authorization p {
+            margin: 10px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="../static/assets/Psychiatry_logo.jpg" alt="Company Logo" width="200" height="auto">
+        <address>
+            319 Tampa Road<br>
+            Oldsmar, FL 34677<br>
+            Phone (727) 733-6111 Fax (727) 733-6002<br>
+            www.healthandpsychiatry.com
+        </address>
+    </header>
+
+    <form action="/submit-emergency-contact-form" method="post" onsubmit="return convertCanvasToImage()">
+<input type="hidden" name="form_type" value="employee_emergency_contacts">
+        <h2>Employee Emergency Contacts</h2>
+
+        <!-- Employee Information -->
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="employeeName">Employee Name:</label>
+                <input type="text" id="employeeName" name="employeeName">
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" id="phoneNumber" name="phoneNumber">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address">
+        </div>
+
+        <!-- Emergency Contacts -->
+        <h3>Emergency Contacts:</h3>
+
+        <!-- Primary Contact -->
+        <div><strong>Primary Contact:</strong></div>
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="primaryName">Name:</label>
+                <input type="text" id="primaryName" name="primaryName">
+            </div>
+            <div class="form-group">
+                <label for="primaryRelationship">Relationship:</label>
+                <input type="text" id="primaryRelationship" name="primaryRelationship">
+            </div>
+        </div>
+
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="primaryPhone">Phone Number:</label>
+                <input type="text" id="primaryPhone" name="primaryPhone">
+            </div>
+            <div class="form-group">
+                <label for="primaryAltPhone">Alt. Phone Number:</label>
+                <input type="text" id="primaryAltPhone" name="primaryAltPhone">
+            </div>
+        </div>
+
+        <!-- Secondary Contact -->
+        <div><strong>Secondary Contact:</strong></div>
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="secondaryName">Name:</label>
+                <input type="text" id="secondaryName" name="secondaryName">
+            </div>
+            <div class="form-group">
+                <label for="secondaryRelationship">Relationship:</label>
+                <input type="text" id="secondaryRelationship" name="secondaryRelationship">
+            </div>
+        </div>
+
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="secondaryPhone">Phone Number:</label>
+                <input type="text" id="secondaryPhone" name="secondaryPhone">
+            </div>
+            <div class="form-group">
+                <label for="secondaryAltPhone">Alt. Phone Number:</label>
+                <input type="text" id="secondaryAltPhone" name="secondaryAltPhone">
+            </div>
+        </div>
+
+        <!-- Physician Contacts -->
+        <h3>Physician Contacts:</h3>
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="doctorName">Doctor’s Name:</label>
+                <input type="text" id="doctorName" name="doctorName">
+            </div>
+            <div class="form-group">
+                <label for="doctorPhone">Phone Number:</label>
+                <input type="text" id="doctorPhone" name="doctorPhone">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="doctorAddress">Address:</label>
+            <input type="text" id="doctorAddress" name="doctorAddress">
+        </div>
+
+        <!-- Employee Authorization -->
+        <div class="authorization">
+            <p>Employee Authorization</p>
+            <p>I have voluntarily provided the above contact information and authorize Health and Psychiatry Consultants, LLC and its representatives to contact any of the above individuals on my behalf in case of an emergency.</p>
+        </div>
+
+        <!-- Signature Section -->
+        <div class="signature-line">
+            <label for="signatureCanvas">Employee Signature</label>
+            <canvas id="signatureCanvas" width="300" height="100"></canvas>
+    <input type="hidden" id="signatureImageData" name="signatureImageData">
+<button type="button" id="clearSignature">Clear Signature</button>
+        </div>
+
+        <!-- Date Signed -->
+        <div class="form-group">
+            <label for="dateSigned">Date Signed:</label>
+            <input type="date" id="dateSigned" name="dateSigned">
+        </div>
+    <input type="submit" value="Submit Application" class="submit-btn">
+
+    </form>
+
+<script>
+    // Get a reference to the canvas object
+    var canvas = document.getElementById('signatureCanvas');
+    var context = canvas.getContext('2d');
+
+    function getMousePos(canvasDom, mouseEvent) {
+        var rect = canvasDom.getBoundingClientRect();
+        return {
+            x: mouseEvent.clientX - rect.left,
+            y: mouseEvent.clientY - rect.top
+        };
+    }
+
+    function renderCanvas() {
+        if (drawing) {
+            context.beginPath();
+            context.moveTo(lastPos.x, lastPos.y);
+            context.lineTo(mousePos.x, mousePos.y);
+            context.closePath();
+            context.stroke();
+            lastPos = mousePos;
+        }
+    }
+
+    function clearCanvas() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    document.getElementById('clearSignature').addEventListener('click', function() {
+        clearCanvas();
+    });
+
+    // Set up mouse events for drawing
+    var drawing = false;
+    var mousePos = { x:0, y:0 };
+    var lastPos = mousePos;
+    canvas.addEventListener("mousedown", function (e) {
+        drawing = true;
+        lastPos = getMousePos(canvas, e);
+    }, false);
+    canvas.addEventListener("mouseup", function (e) {
+        drawing = false;
+    }, false);
+    canvas.addEventListener("mousemove", function (e) {
+        if (drawing) {
+            mousePos = getMousePos(canvas, e);
+            renderCanvas();
+        }
+    }, false);
+
+    // Handle touch events for mobile devices
+    canvas.addEventListener("touchstart", function (e) {
+        mousePos = getTouchPos(canvas, e);
+        var touch = e.touches[0];
+        var mouseEvent = new MouseEvent("mousedown", {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+    }, false);
+    canvas.addEventListener("touchend", function (e) {
+        canvas.dispatchEvent(new MouseEvent("mouseup", {}));
+    }, false);
+    canvas.addEventListener("touchmove", function (e) {
+        var touch = e.touches[0];
+        var mouseEvent = new MouseEvent("mousemove", {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+    }, false);
+
+    // Prevent scrolling when touching the canvas
+    document.body.addEventListener("touchstart", function (e) {
+        if (e.target == canvas) {
+            e.preventDefault();
+        }
+    }, false);
+    document.body.addEventListener("touchend", function (e) {
+        if (e.target == canvas) {
+            e.preventDefault();
+        }
+    }, false);
+    document.body.addEventListener("touchmove", function (e) {
+        if (e.target == canvas) {
+            e.preventDefault();
+        }
+    }, false);
+
+    function getTouchPos(canvasDom, touchEvent) {
+        var rect = canvasDom.getBoundingClientRect();
+        return {
+            x: touchEvent.touches[0].clientX - rect.left,
+            y: touchEvent.touches[0].clientY - rect.top
+        };
+    }
+
+    // Animation loop to ensure the canvas gets rendered continuously
+    (function drawLoop () {
+        requestAnimationFrame(drawLoop);
+        renderCanvas();
+    })();
+</script>
+<script>
+    function convertCanvasToImage() {
+    var canvas = document.getElementById('signatureCanvas');
+    if (canvas.getContext) {
+        var dataURL = canvas.toDataURL('image/png');
+        document.getElementById('signatureImageData').value = dataURL;
+        return true;  // Continue with the form submission
+    }
+    return false;  // Prevent form submission if the canvas cannot be read
+}
+</script>
+</body>
+</html>

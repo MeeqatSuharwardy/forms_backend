@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Employee Emergency Contacts PDF</title>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: #fff;
+        color: #333;
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    header, .footer {
+        text-align: center;
+        padding-bottom: 20px;
+    }
+    h1, h2, h3 {
+        color: #009688;
+    }
+    .section {
+        margin-top: 20px;
+    }
+    .data-field {
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 10px;
+        padding-bottom: 3px;
+    }
+    .authorization, .signature {
+        font-size: 12px;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+<header>
+    <img src="file://{{ signature_image_path }}" alt="Company Logo" width="200" height="200">
+    <address>
+        319 Tampa Road<br>
+        Oldsmar, FL 34677<br>
+        Phone (727) 733-6111 Fax (727) 733-6002<br>
+        www.healthandpsychiatry.com
+    </address>
+</header>
+
+<h2>Employee Emergency Contacts</h2>
+
+<form action="/submit-emergency-contact-form" method="post">
+<!-- Employee Information -->
+<div class="section">
+    <h3>Employee Information</h3>
+    <div class="data-field"><strong>Employee Name:</strong> {{ employee_name }}</div>
+    <div class="data-field"><strong>Phone Number:</strong> {{ phone_number }}</div>
+    <div class="data-field"><strong>Address:</strong> {{ address }}</div>
+</div>
+
+<!-- Emergency Contacts -->
+<div class="section">
+    <h3>Emergency Contacts</h3>
+    <strong>Primary Contact</strong>
+    <div class="data-field"><strong>Name:</strong> {{ primary_name }}</div>
+    <div class="data-field"><strong>Relationship:</strong> {{ primary_relationship }}</div>
+    <div class="data-field"><strong>Phone Number:</strong> {{ primary_phone }}</div>
+    <div class="data-field"><strong>Alt. Phone Number:</strong> {{ primary_alt_phone }}</div>
+
+    <strong>Secondary Contact</strong>
+    <div class="data-field"><strong>Name:</strong> {{ secondary_name }}</div>
+    <div class="data-field"><strong>Relationship:</strong> {{ secondary_relationship }}</div>
+    <div class="data-field"><strong>Phone Number:</strong> {{ secondary_phone }}</div>
+    <div class="data-field"><strong>Alt. Phone Number:</strong> {{ secondary_alt_phone }}</div>
+</div>
+
+<!-- Physician Contacts -->
+<div class="section">
+    <h3>Physician Contacts</h3>
+    <div class="data-field"><strong>Doctor’s Name:</strong> {{ doctor_name }}</div>
+    <div class="data-field"><strong>Phone Number:</strong> {{ doctor_phone }}</div>
+    <div class="data-field"><strong>Address:</strong> {{ doctor_address }}</div>
+</div>
+
+<!-- Authorization and Signature -->
+<div class="authorization">
+ <h1>Anti-Harassment and Discrimination Policy</h1>
+    <div class="authorization">
+        <p><strong>Employee Authorization:</strong> I have voluntarily provided the above contact information and authorize Health and Psychiatry Consultants, LLC and its representatives to contact any of the above individuals on my behalf in case of an emergency.</p>
+        {% if signature_image_path %}
+            <img src="file://{{ signature_image_path }}" alt="Signature Image" style="height: 100px;">
+        {% else %}
+            <p>No signature provided.</p>
+        {% endif %}
+    </div>
+    <div class="authorization">
+        <div class="data-field"><strong>Date Signed:</strong> {{ date_signed }}</div>
+        <div class="data-field"><strong>Printed Name:</strong> {{ printedName }}</div>
+    </div>
+</div>
+    </form>
+</body>
+</html>

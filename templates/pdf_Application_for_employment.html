@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application for Employment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+  .header img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%; /* Makes the image round */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Adds a subtle shadow */
+}
+        .form-section {
+            background: white;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-section h2, .form-section h3 {
+            color: #007bff;
+        }
+        p {
+            margin-top: 10px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{ logo_path }}" alt="Company Logo" width="200" height="200">
+    </div>
+    <form action="/submit-employment-form" method="post">
+        <div class="form-section">
+            <h2>Standard Application for Employment</h2>
+            <p>It is our policy to comply with all applicable state and federal laws prohibiting discrimination in employment based on race, age, color, sex, religion, national origin, disability, or other protected classifications.</p>
+            <p>Please carefully read and answer all questions. You will not be considered for employment if you fail to completely answer all the questions on this application. You may attach a résumé but all questions must be answered.</p>
+            <p><strong>Position applying for:</strong> {{ position_applying_for }}</p>
+        </div>
+
+        <div class="form-section">
+            <h3>PERSONAL DATA</h3>
+            <p><strong>Name (Last, First, Middle):</strong> {{ name }}</p>
+            <p><strong>Street Address and/or Mailing Address:</strong> {{ address }}</p>
+            <p><strong>City:</strong> {{ city }}</p>
+            <p><strong>State:</strong> {{ state }}</p>
+            <p><strong>Zip:</strong> {{ zip }}</p>
+            <p><strong>Home Telephone Number:</strong> {{ home_telephone }}</p>
+            <p><strong>Business Telephone Number:</strong> {{ business_telephone }}</p>
+            <p><strong>Cellular Telephone Number:</strong> {{ cellular }}</p>
+            <p><strong>Date you can start work:</strong> {{ start_date }}</p>
+            <p><strong>Salary Desired:</strong> {{ salary_desired }}</p>
+        </div>
+
+<div class="form-section">
+    <h3>POSITION INFORMATION</h3>
+    {% if hours_available %}
+        <p><strong>Hours Available:</strong> {{ hours_available }}</p>
+
+    {% endif %}
+    {% if hours_available %}
+    <p><strong>Days Available:</strong> {{ days_available }}</p>
+    {% endif %}
+    <p><strong>Authorized to Work in the U.S.:</strong> {{ authorized }}</p>
+</div>
+
+        <!-- QUALIFICATIONS -->
+<div class="form-section">
+    <h3>QUALIFICATIONS</h3>
+    {% for qualification in qualifications %}
+        <div>
+            <p><strong>School Name:</strong> {{ qualification.school_name }}</p>
+            <p><strong>Degree:</strong> {{ qualification.degree }}</p>
+        </div>
+    {% if not loop.last %}
+    <hr style="border: 1px solid #ccc; margin: 20px 0;">  <!-- Horizontal line separator -->
+    {% endif %}
+    {% endfor %}
+</div>
+
+        <!-- SPECIAL SKILLS -->
+<div class="form-section">
+    <h3>SPECIAL SKILLS</h3>
+    <p>{{ special_skills }}</p>
+</div>
+
+        <!-- REFERENCES -->
+<div class="form-section">
+    <h3>REFERENCES</h3>
+    {% for ref in references %}
+    <div>
+        <p><strong>Name:</strong> {{ ref.name }}</p>
+        <p><strong>Phone:</strong> {{ ref.phone }}</p>
+        <p><strong>Relationship:</strong> {{ ref.relationship }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+        <!-- WORK HISTORY -->
+<div class="form-section">
+    <h3>WORK HISTORY</h3>
+    {% for job in work_history %}
+    <div>
+        <p><strong>Job Title:</strong> {{ job.job_title }}</p>
+        <p><strong>Start Date:</strong> {{ job.start_date }}</p>
+        <p><strong>End Date:</strong> {{ job.end_date }}</p>
+        <p><strong>Company Name:</strong> {{ job.company_name }}</p>
+        <p><strong>Supervisor’s Name:</strong> {{ job.supervisor_name }}</p>
+        <p><strong>Phone Number:</strong> {{ job.phone_number }}</p>
+        <p><strong>City:</strong> {{ job.city }}</p>
+        <p><strong>State:</strong> {{ job.state }}</p>
+        <p><strong>Zip:</strong> {{ job.zip }}</p>
+        <p><strong>Duties:</strong> {{ job.duties }}</p>
+        <p><strong>Reason for Leaving:</strong> {{ job.reason_for_leaving }}</p>
+        <p><strong>Starting Salary:</strong> {{ job.starting_salary }}</p>
+        <p><strong>Ending Salary:</strong> {{ job.ending_salary }}</p>
+    </div>
+    {% if not loop.last %}
+    <hr style="border: 1px solid #ccc; margin: 20px 0;">  <!-- Horizontal line separator -->
+    {% endif %}
+    {% endfor %}
+</div>
+    </form>
+</body>
+</html>

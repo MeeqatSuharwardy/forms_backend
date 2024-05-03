@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Payroll Information Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        header {
+            text-align: center;
+            background-color: #F8F9FA;
+            padding: 20px;
+
+
+            margin-bottom: 20px;
+        }
+        header img {
+            display: block;
+            margin: 0 auto;
+            width: 200px;
+            border-radius: 50%;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .signature-container {
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        #signatureCanvas {
+            border: 1px solid #000;
+            cursor: crosshair;
+        }
+        .btn-clear {
+            margin-top: 10px;
+        }
+        .btn-submit {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="../static/assets/Psychiatry_logo.jpg" alt="Company Logo">
+    <address>
+        319 Tampa Road<br>
+        Oldsmar, FL 34677<br>
+        Phone (727) 733-6111 Fax (727) 733-6002<br>
+        www.healthandpsychiatry.com
+    </address>
+</header>
+
+<div class="container">
+    <h1 class="text-center mb-4">Employee Payroll Information Form</h1>
+
+    <form action="/submit_employment_payroll" method="POST">
+
+        <div class="form-group">
+            <label for="employeeName">Employee Name:</label>
+            <input type="text" id="employeeName" name="employeeName" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dateOfHire">Date of Hire:</label>
+            <input type="date" id="dateOfHire" name="dateOfHire" required>
+        </div>
+
+        <div class="form-group">
+            <label for="originalPosition">Original Position:</label>
+            <input type="text" id="originalPosition" name="originalPosition" required>
+        </div>
+
+        <div class="form-group">
+            <label for="changePositionDate">Change of Position/Date Effective:</label>
+            <input type="date" id="changePositionDate" name="changePositionDate">
+        </div>
+
+        <div class="form-group">
+            <label for="payType">Pay Type:</label>
+            <select id="payType" name="payType" required>
+                <option value="Hourly">Hourly</option>
+                <option value="Salaried">Salaried</option>
+                <option value="Commission">Commission</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="payFrequency">Pay Frequency:</label>
+            <select id="payFrequency" name="payFrequency" required>
+                <option value="Bi-weekly">Bi-weekly</option>
+                <!-- Add other pay frequencies as options if necessary -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="hirePayRate">Hire Pay Rate $:</label>
+            <input type="text" id="hirePayRate" name="hirePayRate" required>
+        </div>
+
+        <div class="form-group">
+            <label for="effectiveDate">Effective Date:</label>
+            <input type="date" id="effectiveDate" name="effectiveDate">
+        </div>
+
+        <div class="form-group">
+            <label for="approvalDate">Approval Date:</label>
+            <input type="date" id="approvalDate" name="approvalDate">
+        </div>
+
+        <div class="form-group">
+            <label>I acknowledge and agree to the payroll information above, including my pay rate:</label>
+            <div class="signature-container">
+                <canvas id="signatureCanvas" width="400" height="200"></canvas>
+            </div>
+            <button type="button" class="btn btn-secondary btn-clear" onclick="clearSignature()">Clear Signature</button>
+            <input type="hidden" id="signature" name="signature" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dateSigned">Date Signed:</label>
+            <input type="date" id="dateSigned" name="dateSigned" required>
+        </div>
+
+        <div class="form-group text-center">
+            <input type="submit" value="Submit" class="btn-submit">
+        </div>
+
+    </form>
+</div>
+<script>
+    const canvas = document.getElementById('signatureCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+
+    canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        draw(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top);
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        if (isDrawing) {
+            draw(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top);
+        }
+    });
+
+    canvas.addEventListener('mouseup', () => {
+        isDrawing = false;
+        updateSignatureInput();
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        isDrawing = false;
+    });
+
+    function draw(x, y) {
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    }
+
+    function updateSignatureInput() {
+        document.getElementById('signature').value = canvas.toDataURL();
+    }
+
+    function clearSignature() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        updateSignatureInput();
+    }
+</script>
+</body>
+</html>
