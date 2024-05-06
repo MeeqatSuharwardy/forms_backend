@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Direct Deposit Authorization</title>
+    <style>
+        body, p, input, select {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+        }
+        .WordSection1 {
+            margin: 20px;
+            font-family: "Arial", sans-serif;
+        }
+        .TableGrid {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 1px solid black;
+            padding: 4px;
+            vertical-align: top;
+        }
+        .input-line {
+            width: 98%;
+            border: none;
+            border-bottom: 1px solid black;
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="WordSection1">
+        <h2 align="center">{{ title }}</h2>
+        <p style="text-align: center">Please complete ALL the information below.</p>
+        <div>
+            <strong>Name</strong>: {{ name }}
+            <strong>Address</strong>: {{ address }}
+            <strong>City, State, Zip</strong>: {{ city_state_zip }}
+        </div>
+        <div class="center">
+            <img src="{{ image_url }}" alt="Direct Deposit Image">
+        </div>
+        <table class="TableGrid">
+            <tr>
+                <td><strong>Name of Bank</strong>:</td>
+                <td>{{ bank_name }}</td>
+            </tr>
+            <tr>
+                <td><strong>Account #</strong>:</td>
+                <td>{{ account_number }}</td>
+            </tr>
+            <tr>
+                <td><strong>9-Digit Routing #</strong>:</td>
+                <td>{{ routing_number }}</td>
+            </tr>
+            <tr>
+                <td><strong>Amount</strong>:</td>
+                <td>
+                    $ {{ amount }} % {{ percentage }} or Entire Paycheck
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Type of Account</strong>:</td>
+                <td>
+                    {{ account_type }}
+                </td>
+            </tr>
+        </table>
+        <p>{{ company_name }} is hereby authorized to directly deposit my pay to the account listed above. This authorization will remain in effect until I modify or cancel it in writing.</p>
+        <p>Employee’s Signature:</p><br>
+        {% if signature_image_path %}
+            <img src="file://{{ signature_image_path }}" alt="Signature Image" style="height: 100px;">
+        {% else %}
+            <p>No signature provided.</p>
+        {% endif %}<br>
+        <p>Date: {{ signature_date }}</p>
+    </div>
+</body>
+</html>

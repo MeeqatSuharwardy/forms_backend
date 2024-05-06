@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Direct Deposit Authorization</title>
+    <style>
+        body, p, input, select {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+        }
+        .WordSection1 {
+            margin: 20px;
+            font-family: "Arial", sans-serif;
+        }
+        .TableGrid {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 1px solid black;
+            padding: 4px;
+            vertical-align: top;
+        }
+        .input-line {
+            width: 98%;
+            border: none;
+            border-bottom: 1px solid black;
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+        }
+               .center {
+            display: flex;
+            justify-content: center; /* Aligns children (img) in the center horizontally */
+            margin: 20px 0; /* Optional: adds space above and below the container */
+        }
+        img {
+            align-items: center; /* This property doesn’t apply here, align-items is used within flex containers for vertical alignment */
+            max-width: 100%; /* Ensures the image is responsive and does not overflow its container */
+            height: auto; /* Maintains the aspect ratio of the image */
+        }
+                    canvas {
+            border: 1px solid #cccccc;
+            width: 500px;
+            height: 100px; /* Set the height of the canvas */
+        }
+    </style>
+</head>
+<body>
+    <div class="WordSection1">
+        <h2 align="center">DIRECT DEPOSIT AUTHORIZATION</h2>
+        <p style="text-align: center">Please complete ALL the information below.</p>
+        <form action="/submit_direct_deposit" method="post" onsubmit="return convertCanvasToImage()">
+            <p><strong>Name</strong>: <input type="text" name="name" class="input-line" required></p>
+            <p><strong>Address</strong>: <input type="text" name="address" class="input-line" required></p>
+            <p><strong>City, State, Zip</strong>: <input type="text" name="city_state_zip" class="input-line" required></p>
+        <div class="center">
+            <img width="450" height="268" id="Picture56" src="../static/assets/direct_deposit.png" alt="Direct Deposit Image">
+        </div>            <table class="TableGrid">
+                <tr>
+                    <td><strong>Name of Bank</strong>:</td>
+                    <td><input type="text" name="bank_name" class="input-line" required></td>
+                </tr>
+                <tr>
+                    <td><strong>Account #</strong>:</td>
+                    <td><input type="text" name="account_number" class="input-line" required></td>
+                </tr>
+                <tr>
+                    <td><strong>9-Digit Routing #</strong>:</td>
+                    <td><input type="text" name="routing_number" class="input-line" required></td>
+                </tr>
+                <tr>
+                    <td><strong>Amount</strong>:</td>
+                    <td>
+                        $ <input type="text" name="amount" style="width: 30%;" class="input-line">
+                        % <input type="text" name="percentage" style="width: 30%;" class="input-line"> or Entire Paycheck
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Type of Account</strong>:</td>
+                    <td>
+                        <input type="radio" name="account_type" value="Checking" required> Checking
+                        <input type="radio" name="account_type" value="Savings" required> Savings
+                    </td>
+                </tr>
+            </table>
+            <p>Attach a voided check for each bank account to which funds should be deposited (if necessary).</p>
+            <p><input type="text" name="company_name"> is hereby authorized to directly deposit my pay to the account listed above. This authorization will remain in effect until I modify or cancel it in writing.</p>
+            <p>Employee’s Signature: </p><br>
+                    <canvas id="signatureCanvas" width="300" height="100"></canvas><br>
+        <button type="button" id="clearSignature" onclick="clearCanvas()">Clear Signature</button>
+        <input type="hidden" id="signatureImageData" name="signatureImageData">
+            <p>Date: <input type="date" name="date" required></p>
+            <input type="submit" value="Submit Authorization" onclick="convertCanvasToImage();">
+        </form>
+    </div>
+
+<script>
+    var canvas = document.getElementById('signatureCanvas');
+    var ctx = canvas.getContext('2d');
+    var painting = false;
+    var lastX = 0;
+    var lastY = 0;
+
+    canvas.addEventListener('mousedown', function(e) {
+        painting = true;
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+    });
+
+    canvas.addEventListener('mousemove', function(e) {
+        if (painting) {
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            lastX = e.offsetX;
+            lastY = e.offsetY;
+        }
+    });
+
+    canvas.addEventListener('mouseup', function() {
+        painting = false;
+    });
+
+    canvas.addEventListener('mouseleave', function() {
+        painting = false;
+    });
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function convertCanvasToImage() {
+        var imageData = canvas.toDataURL('image/png');
+        document.getElementById('signatureImageData').value = imageData;
+        return true;  // Continue with the form submission
+    }
+    </script>
+</body>
+</html>

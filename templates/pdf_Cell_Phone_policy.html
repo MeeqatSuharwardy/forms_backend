@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cell Phone policy</title>
+    <style>
+        body, html {
+            font-family: 'Arial', sans-serif;
+            background: white;
+            margin: 0;
+            padding: 20px;
+            color: black;
+        }
+    header {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header img {
+            height: 80px;
+        }
+        header address {
+            font-style: normal;
+            line-height: 1.4;
+            margin-top: 10px;
+            color: #333;
+        }
+        .content {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h2 {
+            text-align: center;
+        }
+        p {
+            text-align: justify;
+            margin: 10px 0;
+        }
+        .signature-section {
+            margin-top: 30px;
+        }
+        .signature {
+            width: 100%;
+            border-top: 1px solid black;
+            text-align: center;
+            line-height: 50px; /* Space for the signature */
+        }
+        .date-section {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{{ logo_path }}" alt="Company Logo" width="200" height="200">
+        <address>
+            3919 Tampa Road<br>
+            Oldsmar, FL 34677<br>
+            Phone (727) 733-6111 Fax (727) 733-6002<br>
+            www.healthandpsychiatry.com
+        </address>
+    </header>
+    <div class="content">
+        <h2>Attention All Employees</h2>
+        <p>USING PERSONAL CELL PHONES DURING WORK HOURS IS STRICTLY PROHIBITED.</p>
+        <p>ANY PERSON(S) FOUND VIOLATING THIS ON THE FIRST INSTANCE WILL BE GIVEN A WRITTEN WARNING.</p>
+        <p>ANY PERSON(S) FOUND VIOLATING THIS A SECOND TIME WILL BE GROUNDS FOR TERMINATION.</p>
+        <p>THE COMPANY LANDLINE PHONES ARE NOT TO BE FOR PERSONAL USE IN ANY CASE.</p>
+        <p>FOR EMERGENCY PURPOSES THE COMPANY NUMBER 727-733-6111 OR PRACTICE MANAGER’S OFFICE MOBILE NUMBER 727-483-2742 MAY BE GIVEN AS A POINT OF CONTACT FOR FAMILY MEMBERS</p>
+        <p>THANK YOU</p>
+        <p>*By signing below you acknowledge this company policy and will comply with the written agreement.</p>
+
+        <div class="signature-section">
+            <label>Signature:</label><br>
+                   {% if signature_image_path %}
+            <img src="file://{{ signature_image_path }}" alt="Signature Image" style="height: 100px;">
+        {% else %}
+            <p>No signature provided.</p>
+        {% endif %}
+        </div>
+        <div class="date-section">
+            <label>Date:</label>
+            <span>{{ agreementDate }}</span>
+        </div>
+    </div>
+</body>
+</html>

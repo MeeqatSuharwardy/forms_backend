@@ -4,7 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="731f18bd-3119-4236-bd4d-d67db39b14e1" name="Changes" comment="" />
+    <list default="true" id="731f18bd-3119-4236-bd4d-d67db39b14e1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/static/assets/direct_deposit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/Cell_Phone_policy.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/Employee’s_Withholding_Certificate.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/pdf_Cell_Phone_policy.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/pdf_Employee’s_Withholding_Certificate.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/pdf_direct_deposit_authorization.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/receipt_of_company_property/33.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/receipt_of_company_property/Receipt_of_Property_Meeqat_Suharwardy.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/pdfs/confidentiality_agreement_Month.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/pdfs/confidentiality_agreement_c_ejc.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/employee_signature_Meeqat_Suharwardy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/employee_signature_Meeqat_Suharwardy_20240408100842.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/employee_signature_Meeqat_Suharwardy_20240408101530.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/employee_signature_final_test_20240408083724.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/employee_signature_final_test_20240408083944.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/employee_signature_final_test_20240408084412.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/employee_signature_final_test_20240408084912.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/employee_signature_final_test_20240408084923.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/manager_signature_Meeqat_Suharwardy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/manager_signature_Meeqat_Suharwardy_20240408100842.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/manager_signature_Meeqat_Suharwardy_20240408101530.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/manager_signature_final_test_20240408083724.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/manager_signature_final_test_20240408083944.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/manager_signature_final_test_20240408084412.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/manager_signature_final_test_20240408084912.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/signatures/signature_c_ejc_20240502220616.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Application_for_employment.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Application_for_employment.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/hippa_agreement.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/hippa_agreement.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pdf_hippa_agreement.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/pdf_hippa_agreement.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,27 +72,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/meeqatsuharwardy/USA_Health_Psychiatry/form automation/templates&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/meeqatsuharwardy/USA_Health_Psychiatry/form automation/static/assets",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/static/assets" />
       <recent name="$PROJECT_DIR$/templates" />
       <recent name="$PROJECT_DIR$/receipt_of_company_property" />
       <recent name="$PROJECT_DIR$/receipt_of_company_property2" />
       <recent name="$PROJECT_DIR$/emergency_contacts_final" />
-      <recent name="$PROJECT_DIR$/anti_harassment_discrimination_final" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/static" />
@@ -122,7 +154,8 @@
       <workItem from="1714415822086" duration="5514000" />
       <workItem from="1714487030112" duration="2233000" />
       <workItem from="1714667353215" duration="3192000" />
-      <workItem from="1714677737936" duration="647000" />
+      <workItem from="1714677737936" duration="2520000" />
+      <workItem from="1714903974558" duration="45169000" />
     </task>
     <servers />
   </component>

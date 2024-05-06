@@ -9,6 +9,7 @@ from datetime import datetime
 from selenium import webdriver
 import img2pdf
 from io import BytesIO
+import logging
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS, cross_origin
@@ -25,12 +26,16 @@ with app.app_context():
     pdf_folder_4 = os.path.join(current_app.root_path, 'submit_employment_payroll')
     pdf_folder_5 = os.path.join(current_app.root_path, 'receipt_of_company_property')
     pdf_folder_6 = os.path.join(current_app.root_path, 'hippa_agreement')
+    pdf_folder_7 = os.path.join(current_app.root_path, 'Cell_Phone_policy')
+    pdf_folder_8 = os.path.join(current_app.root_path, 'Employee’s_Withholding_Certificate')
     os.makedirs(pdf_folder, exist_ok=True)
     os.makedirs(pdf_folder_2, exist_ok=True)
     os.makedirs(pdf_folder_3, exist_ok=True)
     os.makedirs(pdf_folder_4, exist_ok=True)
     os.makedirs(pdf_folder_5, exist_ok=True)
     os.makedirs(pdf_folder_6, exist_ok=True)
+    os.makedirs(pdf_folder_7, exist_ok=True)
+    os.makedirs(pdf_folder_8, exist_ok=True)
 
 @app.route('/')
 @cross_origin()
@@ -68,6 +73,20 @@ def receipt_of_company_property_form():
 def hippa_agreement():
     return render_template('hippa_agreement.html')
 
+@app.route('/cell_phone_policy')
+@cross_origin()
+def cell_phone_policy():
+    return render_template('Cell_Phone_policy.html')
+
+@app.route('/Employees_Withholding_Certificate')
+@cross_origin()
+def Employees_withholding_certificate():
+    return render_template('Employee’s_Withholding_Certificate.html')
+
+@app.route('/direct_deposit_authorization')
+@cross_origin()
+def direct_deposit():
+    return render_template('direct_deposit_authorization.html')
 
 @app.route('/submit-emergency-contact-form', methods=['POST'])
 @cross_origin()
@@ -128,8 +147,7 @@ def submit_emergency_contact_form():
 
     }
     pdfkit.from_string(html_content, pdf_path, options=options)
-    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated.",
-                    "pdf_url": url_for('static', filename=f'pdfs/{filename}')})
+    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated."})
 
 
 @app.route('/submit-employment-form', methods=['POST'])
@@ -227,8 +245,7 @@ def submit_employment_form():
     pdfkit.from_string(html_content, pdf_path, options=options)
 
     # Send the PDF file directly as an attachment
-    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated.",
-                    "pdf_url": url_for('static', filename=f'pdfs/{filename}')})
+    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated."})
 
 
 @app.route('/anti_harassment_discrimination_final', methods=['POST'])
@@ -265,6 +282,8 @@ def anti_harassment_discrimination_final():
 
 
     pdf_path = os.path.join(pdf_folder_3, filename)
+    logo_path = os.path.join(current_app.root_path, 'static', 'assets', 'Psychiatry_logo.jpg')
+    form_data['logo_path'] = logo_path
     html_content = render_template(template_name, **context)
     options = {
         'quiet': '',
@@ -272,8 +291,7 @@ def anti_harassment_discrimination_final():
         'enable-local-file-access': ''
     }
     pdfkit.from_string(html_content, pdf_path, options=options)
-    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated.",
-                    "pdf_url": url_for('static', filename=f'pdfs/{filename}')})
+    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated."})
 
 
 @app.route('/submit_employment_payroll', methods=['POST'])
@@ -317,9 +335,9 @@ def submit_employment_payroll():
         'signature_image_path': signature_fs_path,
     }
 
-    logo_path = os.path.join(current_app.root_path, 'static', 'assets', 'Psychiatry_logo.jpg')
-    context['logo_path'] = logo_path
     pdf_path = os.path.join(pdf_folder_4, filename)
+    logo_path = os.path.join(current_app.root_path, 'static', 'assets', 'Psychiatry_logo.jpg')
+    form_data['logo_path'] = logo_path
     html_content = render_template(template_name, **context)
     options = {
         'quiet': '',
@@ -327,8 +345,7 @@ def submit_employment_payroll():
         'enable-local-file-access': ''
     }
     pdfkit.from_string(html_content, pdf_path, options=options)
-    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated.",
-                    "pdf_url": url_for('static', filename=f'pdfs/{filename}')})
+    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated."})
 
 
 @app.route('/receipt_of_company_property', methods=['POST'])
@@ -364,14 +381,15 @@ def receipt_of_company_property():
     # Render HTML content
     html_content = render_template(template_name, **context)
     pdf_path = os.path.join(pdf_folder_5, filename)
+    logo_path = os.path.join(current_app.root_path, 'static', 'assets', 'Psychiatry_logo.jpg')
+    form_data['logo_path'] = logo_path
     options = {
         'quiet': '',
         'load-error-handling': 'ignore',
         'enable-local-file-access': True
     }
     pdfkit.from_string(html_content, pdf_path, options=options)
-    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated.",
-                    "pdf_url": url_for('static', filename=f'pdfs/{filename}')})
+    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated."})
 
 
 def save_signature(data, role, name, path):
@@ -395,48 +413,161 @@ def save_signature(data, role, name, path):
 @cross_origin()
 def submit_confidentiality_agreement():
     form_data = request.form
-    employee_name = form_data.get('employeeName', 'Unknown_Name').replace(' ', '_')
-    agreement_date = form_data.get('agreementDate', '')
-    agreement_month = form_data.get('agreementMonth', '')
-    agreement_year = form_data.get('agreementYear', '')
-    filename = f"confidentiality_agreement_{employee_name}.pdf"
+    agreement_date = form_data.get('agreementDate')
+    agreement_month = form_data.get('agreementMonth')
+    agreement_year = form_data.get('agreementYear')
+    employee_name = form_data.get('employeeName', 'Unknown').replace(' ', '_')
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    filename = f"hippa_agreement_{employee_name}_{timestamp}.pdf"
     template_name = 'pdf_hippa_agreement.html'
 
-    signatures_path = os.path.join(app.root_path, 'static', 'signatures')
+    signatures_path = os.path.join(current_app.root_path, 'static', 'signatures')
     os.makedirs(signatures_path, exist_ok=True)
-    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
     signature_filename = f'signature_{employee_name}_{timestamp}.png'
     signature_full_path = os.path.join(signatures_path, signature_filename)
 
     signature_data = form_data.get('signatureImageData')
-    if signature_data:
+    if signature_data and ',' in signature_data:
         signature_image_data = signature_data.split(",")[1]
         image_data = base64.b64decode(signature_image_data)
         with open(signature_full_path, 'wb') as f:
             f.write(image_data)
+        signature_fs_path = signature_full_path  # Use this path for embedding in PDF
+    else:
+        signature_fs_path = None  # Handle the case when no signature is provided
+    logo_path = os.path.join(current_app.root_path, 'static', 'assets', 'Psychiatry_logo.jpg')
 
     context = {
         'employeeName': employee_name,
         'agreementDate': agreement_date,
         'agreementMonth': agreement_month,
         'agreementYear': agreement_year,
-        'signature_image_path': signature_full_path
+        'signature_image_path': signature_fs_path,
+        'logo_path': logo_path
     }
 
-    pdf_folder = os.path.join(app.root_path, 'static', 'pdfs')
-    os.makedirs(pdf_folder, exist_ok=True)
-    pdf_path = os.path.join(pdf_folder, filename)
+    pdf_path = os.path.join(pdf_folder_6, filename)
     html_content = render_template(template_name, **context)
-    options = {
-        'quiet': '',
-        'load-error-handling': 'ignore',
-        'enable-local-file-access': ''
-    }
+    options = {'quiet': '', 'load-error-handling': 'ignore', 'enable-local-file-access': ''}
     pdfkit.from_string(html_content, pdf_path, options=options)
+
     return jsonify({
         "success": True,
         "message": "Form successfully submitted and PDF generated.",
         "pdf_url": url_for('static', filename=f'pdfs/{filename}')
+    })
+
+@app.route('/submit_cellphone_policy', methods=['POST'])
+@cross_origin()
+def submit_cellphone_policy():
+    form_data = request.form
+    agreement_date = form_data.get('agreementDate')
+
+    # Set filename using a timestamp to avoid collisions
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    filename = f"cell_phone_policy_{timestamp}.pdf"
+    template_name = 'pdf_Cell_Phone_policy.html'
+
+    # Setup paths for signature and PDF output
+    signatures_path = os.path.join(current_app.root_path, 'static', 'signatures')
+    os.makedirs(signatures_path, exist_ok=True)
+    signature_filename = f'signature_{timestamp}.png'
+    signature_full_path = os.path.join(signatures_path, signature_filename)
+
+    signature_data = form_data.get('signatureImageData')
+    if signature_data and ',' in signature_data:
+        signature_image_data = signature_data.split(",")[1]
+        image_data = base64.b64decode(signature_image_data)
+        with open(signature_full_path, 'wb') as f:
+            f.write(image_data)
+        signature_fs_path = signature_full_path  # Use this path for embedding in PDF
+    else:
+        signature_fs_path = None  # Handle the case when no signature is provided
+
+    # Prepare the context for rendering the PDF
+    logo_path = os.path.join(current_app.root_path, 'static', 'assets', 'Psychiatry_logo.jpg')
+    context = {
+        'agreementDate': agreement_date,
+        'signature_image_path': signature_fs_path,
+        'logo_path': logo_path  # Add logo_path directly to the context
+    }
+
+    # Set up PDF output folder and generate PDF
+    pdf_path = os.path.join(pdf_folder_7, filename)
+    html_content = render_template(template_name, **context)
+    options = {'quiet': '', 'load-error-handling': 'ignore', 'enable-local-file-access': ''}
+    pdfkit.from_string(html_content, pdf_path, options=options)
+
+    return jsonify({
+        "success": True,
+        "message": "Form successfully submitted and PDF generated."    })
+
+@app.route('/Employees_Withholding_Certificate', methods=['POST'])
+def submit():
+    form_data = request.form
+    # Example fields captured from form
+    data = {
+        'first_name': form_data.get('first_name', 'N/A'),
+        'last_name': form_data.get('last_name', 'N/A'),
+        'social_security_number': form_data.get('social_security_number', 'N/A'),
+        'address': form_data.get('address', 'N/A'),
+        'city_state_zip': form_data.get('city_state_zip', 'N/A'),
+        'marital_status': form_data.get('marital_status', 'N/A'),
+        'multiple_jobs_info': form_data.get('multiple_jobs_info', 'N/A'),
+        'qualifying_children': form_data.get('qualifying_children', '0'),
+        'other_dependents': form_data.get('other_dependents', '0'),
+        'total_credits': form_data.get('total_credits', '0'),
+        'total_credit': form_data.get('total_credit', '0'),
+        'other_income': form_data.get('other_income', '0'),
+        'deductions': form_data.get('deductions', '0'),
+        'extra_withholding': form_data.get('extra_withholding', '0'),
+        'signature_date': form_data.get('signature_date', 'N/A'),
+        'employer_name_address': form_data.get('employer_name_address', 'N/A'),
+        'first_date_of_employment': form_data.get('first_date_of_employment', 'N/A'),
+        'employer_ein': form_data.get('employer_ein', 'N/A')
+    }
+
+    safe_first_name = data['first_name'].replace(' ', '_').replace('/', '_')
+    safe_last_name = data['last_name'].replace(' ', '_').replace('/', '_')
+    # Set filename using a timestamp to avoid collisions
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    filename = f"application_for_employment_{safe_first_name}_{safe_last_name}.pdf"
+    template_name = f'pdf_Employee’s_Withholding_Certificate.html'
+
+    # Optionally, setup paths for signature and PDF output
+    signatures_path = os.path.join(current_app.root_path, 'static', 'signatures')
+    os.makedirs(signatures_path, exist_ok=True)
+    signature_filename = f'signature_test_{timestamp}.png'
+    signature_full_path = os.path.join(signatures_path, signature_filename)
+
+    signature_data = form_data.get('signatureImageData')
+    if signature_data and ',' in signature_data:
+        signature_image_data = signature_data.split(",")[1]
+        image_data = base64.b64decode(signature_image_data)
+        with open(signature_full_path, 'wb') as f:
+            f.write(image_data)
+        signature_fs_path = signature_full_path  # Path for embedding in PDF
+        print("Signature saved at:", signature_full_path)  # Debug: Confirm file save
+    else:
+        signature_fs_path = None
+        print("No valid signature data provided.")  # Debug: Alert on no data
+
+    # Prepare the context for rendering the PDF
+    context = {
+
+        'signature_image_path': signature_fs_path if signature_fs_path else 'default_signature.png'
+    }
+
+    # Set up PDF output folder and generate PDF
+    pdf_path = os.path.join(pdf_folder_8, filename)
+    html_content = render_template(template_name, **data, **context)
+    options = {'quiet': '', 'load-error-handling': 'ignore', 'enable-local-file-access': ''}
+    pdfkit.from_string(html_content, pdf_path, options=options)
+
+    return jsonify({
+        "success": True,
+        "message": "Application for employment successfully submitted and PDF generated.",
+        "pdf_url": f"/static/pdfs/{filename}"
     })
 
 @app.route('/list-pdfs')
@@ -447,7 +578,9 @@ def list_pdfs():
         'EmergencyContacts': os.path.join(current_app.root_path, 'emergency_contacts_final'),
         'AntiHarassmentDiscrimination': os.path.join(current_app.root_path, 'anti_harassment_discrimination_final'),
         'EmploymentPayroll': os.path.join(current_app.root_path, 'submit_employment_payroll'),
-        'ReceiptOfProperty': os.path.join(current_app.root_path, 'receipt_of_company_property')
+        'ReceiptOfProperty': os.path.join(current_app.root_path, 'receipt_of_company_property'),
+        'HippaAgreement': os.path.join(current_app.root_path, 'hippa_agreement'),
+        'CellPhonePolicy': os.path.join(current_app.root_path, 'Cell_Phone_policy')
     }
 
     all_pdfs = []
@@ -479,29 +612,33 @@ DIRECTORY_MAP = {
     'EmergencyContacts': 'emergency_contacts_final',
     'AntiHarassmentDiscrimination': 'anti_harassment_discrimination_final',
     'EmploymentPayroll': 'submit_employment_payroll',
-    'ReceiptOfProperty': 'receipt_of_company_property'
+    'ReceiptOfProperty': 'receipt_of_company_property',
+    'HippaAgreement': 'hippa_agreement',
+    'CellPhonePolicy': 'Cell_Phone_policy'
 }
 
-@app.route('/pdfs/<category>/<filename>')
+@app.route('/<category>/<filename>')
 @cross_origin()
 def serve_pdf(category, filename):
+    logging.basicConfig(level=logging.DEBUG)
     download = request.args.get('download', default='no', type=str)
     directory = DIRECTORY_MAP.get(category)
     if directory:
         full_path = os.path.join(current_app.root_path, directory)
         try:
+            logging.debug(f"Trying to serve or download file: {full_path}/{filename}")
             if download == 'yes':
-                # Send the file with Content-Disposition: attachment which forces a download
                 return send_from_directory(full_path, filename, as_attachment=True)
             else:
-                # Serve the file to be opened in the browser
                 return send_from_directory(full_path, filename)
         except FileNotFoundError:
+            logging.error(f"File not found: {full_path}/{filename}")
             return jsonify({'error': 'File not found'}), 404
     else:
+        logging.error(f"Invalid category provided: {category}")
         return jsonify({'error': 'Invalid category'}), 400
 
-@app.route('/delete-pdf/<category>/<filename>', methods=['DELETE'])
+@app.route('/<category>/<filename>', methods=['DELETE'])
 @cross_origin()
 def delete_pdf(category, filename):
     directory = DIRECTORY_MAP.get(category)
@@ -516,5 +653,6 @@ def delete_pdf(category, filename):
             return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
     else:
         return jsonify({'error': 'Invalid category'}), 400
+
 if __name__ == '__main__':
     app.run(debug=True)

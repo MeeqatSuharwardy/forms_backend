@@ -96,7 +96,7 @@
 </head>
 <body>
   <header>
-    <img src="../static/assets/Psychiatry_logo.jpg" alt="Company Logo">
+    <img src="{{ logo_path }}" alt="Company Logo" width="200" height="200">
       <address>
         3919 Tampa Road<br>
         Oldsmar, FL 34677<br>
@@ -146,51 +146,17 @@
             <p>IN WITNESS WHEREOF, and intending to be legally bound, the Parties hereto have executed this Agreement on the date first above written, when signing below and after training on HIPAA Law with full understanding this agreement shall stand.</p>
             <br>
             </div>
-     <form>
             <h2>Signature</h2>
-            {% if signature_image_path %}
+        {% if signature_image_path %}
             <img src="file://{{ signature_image_path }}" alt="Signature Image" style="height: 100px;">
         {% else %}
             <p>No signature provided.</p>
         {% endif %}
-            <button type="button" id="clear-signature">Clear Signature</button>
-        </form>
         <br>
-              <div class="form-group text-center">
-            <input type="submit" value="Submit" class="btn-submit">
-        </div>
     </section>
 </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-<script>
-    const canvas = document.getElementById('signature-canvas');
-    const signaturePad = new SignaturePad(canvas, {
-        backgroundColor: 'rgba(255, 255, 255, 0)', // necessary for saving image as JPEG; default is white
-    });
 
-    function resizeCanvas() {
-        // When the window resizes, adjust the canvas size
-        const ratio = Math.max(window.devicePixelRatio || 1, 1);
-        canvas.width = canvas.offsetWidth * ratio;
-        canvas.height = canvas.offsetHeight * ratio;
-        canvas.getContext('2d').scale(ratio, ratio);
-        signaturePad.clear(); // Clear the canvas to avoid any sketchy output
-    }
-
-    // Ensure the canvas is resized initially and whenever the window resizes.
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    document.getElementById('clear-signature').addEventListener('click', function() {
-        signaturePad.clear();
-    });
-
-    document.getElementById('save-signature').addEventListener('click', function() {
-        const dataURL = signaturePad.toDataURL();
-        console.log("Signature Data URL: ", dataURL); // Here you can handle the data URL further, such as sending it to a server.
-    });
-</script>
 </body>
 </html>
