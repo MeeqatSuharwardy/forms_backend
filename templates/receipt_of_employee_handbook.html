@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Receipt of Employee Handbook</title>
+    <style>
+        body, html {
+            font-family: 'Arial', sans-serif;
+            background: white;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+        header {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header img {
+            height: 80px;
+        }
+        header address {
+            font-style: normal;
+            line-height: 1.4;
+            margin-top: 10px;
+            color: #333;
+        }
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: #fff;
+            border-radius: 8px;
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        .center-text {
+            text-align: center;
+            margin-top: 16px;
+        }
+        canvas {
+            border: 1px solid #cccccc;
+            display: block;
+            margin: 10px auto;
+        }
+        input, button {
+            padding: 8px 12px;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #004494;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="../static/assets/Psychiatry_logo.jpg" alt="Company Logo">
+        <address>
+            3919 Tampa Road<br>
+            Oldsmar, FL 34677<br>
+            Phone (727) 733-6111 Fax (727) 733-6002<br>
+            www.healthandpsychiatry.com
+        </address>
+    </header>
+    <form action= "/pdf_receipt_of_employee_handbook" method="POST"  onsubmit="return convertCanvasToImage()"  enctype="multipart/form-data">
+        <h2>Attention All Employees</h2>
+        <p class="center-text">This acknowledges that I have received a copy of the Health
+&amp; Psychiatry Employee Handbook. I understand that it is my
+responsibility to read and abide by the rules set forth in it.
+Should I have any questions, I will address them with the
+Practice Administrator.</p>
+
+        <div class="center-text">
+            <label for="signatureCanvas">Signature:</label>
+            <canvas id="signatureCanvas" width="300" height="100"></canvas><br>
+            <button type="button" onclick="clearCanvas()">Clear Signature</button>
+            <input type="hidden" id="signatureImageData" name="signatureImageData">
+        </div>
+        <div class="center-text">
+            <label for="agreementDate">Date:</label><br>
+            <input type="date" id="agreementDate" name="agreementDate" required>
+        </div>
+        <div class="center-text">
+            <label for="Print_Name">Print Name:</label><br>
+            <input type="text" id="PrintName" name="PrintName" required>
+        </div>
+        <div class="center-text">
+            <button type="submit" onclick="convertCanvasToImage();">Submit</button>
+        </div>
+    </form>
+
+<script>
+    var canvas = document.getElementById('signatureCanvas');
+    var ctx = canvas.getContext('2d');
+    var painting = false;
+    var lastX = 0;
+    var lastY = 0;
+
+    canvas.addEventListener('mousedown', function(e) {
+        painting = true;
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+    });
+
+    canvas.addEventListener('mousemove', function(e) {
+        if (painting) {
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            lastX = e.offsetX;
+            lastY = e.offsetY;
+        }
+    });
+
+    canvas.addEventListener('mouseup', function() {
+        painting = false;
+    });
+
+    canvas.addEventListener('mouseleave', function() {
+        painting = false;
+    });
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function convertCanvasToImage() {
+        var imageData = canvas.toDataURL('image/png');
+        document.getElementById('signatureImageData').value = imageData;
+        return true;  // Continue with the form submission
+    }
+    </script>
+</body>
+</html>

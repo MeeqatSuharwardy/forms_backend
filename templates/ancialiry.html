@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Protective Company - Application</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="email"],
+    input[type="tel"] {
+        width: calc(100% - 16px);
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+
+    button[type="submit"] {
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+<form id="medical-protective-form" action="/submit-application" method="post">
+    <h1>The Medical Protective Company - Application</h1>
+
+    <!-- Section I: General Information -->
+    <div class="container">
+        <fieldset>
+            <legend>I. General Information</legend>
+            <label for="last_name">Last Name</label>
+            <input type="text" id="last_name" name="last_name">
+
+            <label for="first_name">First Name (Full)</label>
+            <input type="text" id="first_name" name="first_name">
+
+            <label for="middle_name">Middle Name</label>
+            <input type="text" id="middle_name" name="middle_name">
+
+            <label for="suffix">Suffix</label>
+            <input type="text" id="suffix" name="suffix">
+
+            <label for="ssn">Social Security Number (Optional)</label>
+            <input type="text" id="ssn" name="ssn">
+
+            <label for="dob">Date of Birth (MM/DD/YYYY)</label>
+            <input type="date" id="dob" name="dob">
+
+            <label>Gender</label>
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label>
+
+            <label for="npi">National Provider Identifier Number</label>
+            <input type="text" id="npi" name="npi">
+
+            <label for="business_phone">Business Phone</label>
+            <input type="tel" id="business_phone" name="business_phone">
+
+            <label for="business_fax">Business Fax</label>
+            <input type="tel" id="business_fax" name="business_fax">
+
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email">
+
+            <label for="residence_phone">Residence/Cell Phone</label>
+            <input type="tel" id="residence_phone" name="residence_phone">
+        </fieldset>
+    </div>
+
+    <!-- Section II: Practice Locations -->
+    <div class="container">
+        <fieldset>
+            <legend>D. Practice Locations</legend>
+            <p>Please list primary location first. Combined percentage of practice for all locations must total 100% and cannot be of equal values.</p>
+            <div>
+                <label for="location1_type">Location 1 Type</label>
+                <select id="location1_type" name="location1_type">
+                    <option value="office">Office</option>
+                    <option value="hospital">Hospital</option>
+                    <option value="other">Other</option>
+                </select>
+                <label for="location1_percentage">% of practice</label>
+                <input type="text" id="location1_percentage" name="location1_percentage">
+            </div>
+            <div>
+                <label for="location1_name">Practice/Hospital Name</label>
+                <input type="text" id="location1_name" name="location1_name">
+
+                <!-- Additional locations... -->
+            </div>
+        </fieldset>
+    </div>
+
+    <!-- Additional sections... -->
+
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

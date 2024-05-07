@@ -10,3 +10,4 @@ img2pdf
 flask_httpauth
 Werkzeug
 flask_cors
+PyPDF2

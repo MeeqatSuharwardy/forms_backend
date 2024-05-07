@@ -5,15 +5,19 @@ from flask import current_app
 from PIL import Image
 import base64
 import io
+from io import BytesIO
 from datetime import datetime
 from selenium import webdriver
 import img2pdf
 from io import BytesIO
+import shutil
 import logging
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS, cross_origin
 from flask import send_from_directory
+from PyPDF2 import PdfReader, PdfWriter
+import PyPDF2
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -28,6 +32,8 @@ with app.app_context():
     pdf_folder_6 = os.path.join(current_app.root_path, 'hippa_agreement')
     pdf_folder_7 = os.path.join(current_app.root_path, 'Cell_Phone_policy')
     pdf_folder_8 = os.path.join(current_app.root_path, 'Employee’s_Withholding_Certificate')
+    pdf_folder_9 = os.path.join(current_app.root_path, 'direct_deposit_authorization')
+    pdf_folder_10 = os.path.join(current_app.root_path, 'receipt_of_employee_handbook')
     os.makedirs(pdf_folder, exist_ok=True)
     os.makedirs(pdf_folder_2, exist_ok=True)
     os.makedirs(pdf_folder_3, exist_ok=True)
@@ -36,6 +42,8 @@ with app.app_context():
     os.makedirs(pdf_folder_6, exist_ok=True)
     os.makedirs(pdf_folder_7, exist_ok=True)
     os.makedirs(pdf_folder_8, exist_ok=True)
+    os.makedirs(pdf_folder_9, exist_ok=True)
+    os.makedirs(pdf_folder_10, exist_ok=True)
 
 @app.route('/')
 @cross_origin()
@@ -87,6 +95,88 @@ def Employees_withholding_certificate():
 @cross_origin()
 def direct_deposit():
     return render_template('direct_deposit_authorization.html')
+
+@app.route('/hap_employee_handbook')
+@cross_origin()
+def hap_employee_handoob():
+    directory = os.path.join(current_app.root_path, 'static', 'pdfs')  # Adjust this path to where your DOCX file is stored
+    filename = "HAP_Employee_Handbook_FINAL.pdf"
+    response = send_from_directory(directory, filename, as_attachment=False)
+    response.headers['Content-Disposition'] = 'inline'
+    return response
+
+@app.route('/receipt_of_employee_handbook')
+@cross_origin()
+def receipt_of_employee_handbook():
+    return render_template('receipt_of_employee_handbook.html')
+
+@app.route('/i-9', methods=['GET'])
+def serve_pdf_2():
+    directory = os.path.join(current_app.root_path, 'static', 'pdfs')
+    filename = "i-9.pdf"
+    return send_from_directory(directory, filename, as_attachment=False)
+
+@app.route('/upload-modified-i9', methods=['POST'])
+def handle_modified_pdf():
+    try:
+        pdf_data = request.files['modified_pdf']
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        new_filename = f"i-9_{timestamp}.pdf"
+        pdf_folder = os.path.join(current_app.root_path, 'I_9_Form')
+
+        if not os.path.exists(pdf_folder):
+            os.makedirs(pdf_folder)
+
+        path_to_new_file = os.path.join(pdf_folder, new_filename)
+        pdf_data.save(path_to_new_file)
+
+        return jsonify({'message': 'File saved successfully', 'filename': new_filename})
+    except Exception as e:
+        return str(e), 500
+
+@app.route('/download-path/<filename>')
+def download_file(filename):
+    pdf_folder = os.path.join(current_app.root_path, 'I_9_Form')
+    try:
+        return send_from_directory(pdf_folder, filename, as_attachment=True)
+    except FileNotFoundError:
+        return "File not found.", 404
+    except Exception as e:
+        return str(e), 500
+
+
+
+@app.route('/Employee_Enrollment_form')
+@cross_origin()
+def employee_enrollment_form():
+    directory = os.path.join(current_app.root_path, 'static',
+                             'pdfs')  # Adjust this path to where your DOCX file is stored
+    filename = "Employee_Enrollment_form.pdf"
+    pdf_folder_11 = os.path.join(current_app.root_path, 'UHC_Employee_Enrollment_Form')
+
+    # Send the PDF file as a response
+    response = send_from_directory(directory, filename, as_attachment=False)
+
+    response.headers['Content-Disposition'] = 'inline'
+    shutil.copy(os.path.join(directory, filename), os.path.join(pdf_folder_11, filename))
+
+    return response
+
+@app.route('/credentialing_checklist')
+@cross_origin()
+def credentialing_checklist():
+    return render_template('credentialing_checklist.html')
+
+@app.route('/ancialiry')
+@cross_origin()
+def ancialiry():
+    return render_template('ancialiry.html')
+
+
+@app.route('/i99')
+@cross_origin()
+def iii9():
+    return render_template('i-9.html')
 
 @app.route('/submit-emergency-contact-form', methods=['POST'])
 @cross_origin()
@@ -569,6 +659,110 @@ def submit():
         "message": "Application for employment successfully submitted and PDF generated.",
         "pdf_url": f"/static/pdfs/{filename}"
     })
+
+@app.route('/submit_direct_deposit', methods=['POST'])
+def submit_direct_deposit_form():
+    form_data = request.form.to_dict(flat=False)
+    name_in_form = form_data.get('name', ['Unknown_Name'])[0].replace(' ', '_')
+    filename = f"Direct_Deposit_{name_in_form}.pdf"
+    template_name = 'pdf_direct_deposit_authorization.html'
+
+    # Prepare the path for signatures and create unique file name
+    signatures_path = os.path.join(current_app.root_path, 'static', 'signatures')
+    os.makedirs(signatures_path, exist_ok=True)
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    signature_filename = f'signature_{name_in_form}_{timestamp}.png'
+    signature_full_path = os.path.join(signatures_path, signature_filename)
+
+    signature_data = form_data.get('signatureImageData', [''])[0]
+    if signature_data:
+        signature_image_data = signature_data.split(",")[1]
+        image_data = base64.b64decode(signature_image_data)
+        with open(signature_full_path, 'wb') as f:
+            f.write(image_data)
+        signature_fs_path = signature_full_path  # Path for embedding in PDF
+    else:
+        signature_fs_path = None
+
+    # Prepare the context with all necessary data
+    context = {
+        'title': "Direct Deposit Authorization",
+        'name': form_data.get('name', [''])[0],
+        'address': form_data.get('address', [''])[0],
+        'city_state_zip': form_data.get('city_state_zip', [''])[0],
+        'bank_name': form_data.get('bank_name', [''])[0],
+        'account_number': form_data.get('account_number', [''])[0],
+        'routing_number': form_data.get('routing_number', [''])[0],
+        'amount': form_data.get('amount', [''])[0],
+        'percentage': form_data.get('percentage', [''])[0],
+        'account_type': form_data.get('account_type', [''])[0],
+        'company_name': form_data.get('company_name', [''])[0],
+        'signature_date': form_data.get('date', [''])[0],
+        'signature_image_path': signature_fs_path if signature_fs_path else url_for('static', filename='signatures/default_signature.png')
+    }
+
+    def encode_image(image_path):
+        with open(image_path, "rb") as image_file:
+            return base64.b64encode(image_file.read()).decode('utf-8')
+
+    context['logo_base64'] = encode_image(os.path.join(current_app.root_path, 'static', 'assets', 'direct_deposit.png'))
+    pdf_path = os.path.join(pdf_folder_9, filename)
+    html_content = render_template(template_name, **context)
+    options = {
+        'quiet': '',
+        'load-error-handling': 'ignore',
+        'enable-local-file-access': ''
+    }
+    pdfkit.from_string(html_content, pdf_path, options=options)
+
+    return jsonify({"success": True, "message": "Direct deposit authorization submitted and PDF generated.", "pdf_url": url_for('static', filename=f'pdfs/{filename}')})
+
+@app.route('/pdf_receipt_of_employee_handbook', methods=['POST'])
+@cross_origin()
+def receipt_of_employeehandbook():
+    form_data = request.form
+    agreement_date = form_data.get('agreementDate')
+    PrintName = form_data.get('PrintName')
+
+    # Set filename using a timestamp to avoid collisions
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    filename = f"receipt_of_employee_handbook_{PrintName}_{timestamp}.pdf"
+    template_name = 'pdf_receipt_of_employee_handbook.html'
+
+    # Setup paths for signature and PDF output
+    signatures_path = os.path.join(current_app.root_path, 'static', 'signatures')
+    os.makedirs(signatures_path, exist_ok=True)
+    signature_filename = f'signature_{timestamp}.png'
+    signature_full_path = os.path.join(signatures_path, signature_filename)
+
+    signature_data = form_data.get('signatureImageData')
+    if signature_data and ',' in signature_data:
+        signature_image_data = signature_data.split(",")[1]
+        image_data = base64.b64decode(signature_image_data)
+        with open(signature_full_path, 'wb') as f:
+            f.write(image_data)
+        signature_fs_path = signature_full_path  # Use this path for embedding in PDF
+    else:
+        signature_fs_path = None  # Handle the case when no signature is provided
+
+    # Prepare the context for rendering the PDF
+    logo_path = os.path.join(current_app.root_path, 'static', 'assets', 'Psychiatry_logo.jpg')
+    context = {
+        'agreementDate': agreement_date,
+        'signature_image_path': signature_fs_path,
+        'logo_path': logo_path,  # Add logo_path directly to the context
+        'PrintName': PrintName
+    }
+
+    # Set up PDF output folder and generate PDF
+    pdf_path = os.path.join(pdf_folder_10, filename)
+    html_content = render_template(template_name, **context)
+    options = {'quiet': '', 'load-error-handling': 'ignore', 'enable-local-file-access': ''}
+    pdfkit.from_string(html_content, pdf_path, options=options)
+
+    return jsonify({
+        "success": True,
+        "message": "Form successfully submitted and PDF generated."    })
 
 @app.route('/list-pdfs')
 @cross_origin()

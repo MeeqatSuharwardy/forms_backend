@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form I-9</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .form-section {
+        margin-bottom: 30px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="email"],
+    input[type="tel"] {
+        width: calc(100% - 16px);
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="checkbox"] {
+        margin-right: 10px;
+    }
+
+    button[type="submit"] {
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+<form id="form-i9" action="/submit-i9" method="post">
+    <h1 align="center">Employment Eligibility Verification</h1>
+
+    <!-- Section 1: Employee Information and Attestation -->
+<div class="container">
+        <fieldset class="form-section">
+            <legend>Section 1: Employee Information and Attestation</legend>
+            <label for="last_name">Last Name (Family Name)</label>
+            <input type="text" id="last_name" name="last_name">
+
+            <label for="first_name">First Name (Given Name)</label>
+            <input type="text" id="first_name" name="first_name">
+
+            <label for="middle_initial">Middle Initial</label>
+            <input type="text" id="middle_initial" name="middle_initial">
+
+            <label for="other_names">Other Names Used (if any)</label>
+            <input type="text" id="other_names" name="other_names">
+
+            <label for="address">Address (Street Number and Name)</label>
+            <input type="text" id="address" name="address">
+
+            <label for="apt_number">Apt. Number (if any)</label>
+            <input type="text" id="apt_number" name="apt_number">
+
+            <label for="city_town">City or Town</label>
+            <input type="text" id="city_town" name="city_town">
+
+            <label for="state">State</label>
+            <input type="text" id="state" name="state">
+
+            <label for="zip_code">ZIP Code</label>
+            <input type="text" id="zip_code" name="zip_code">
+
+            <label for="dob">Date of Birth (mm/dd/yyyy)</label>
+            <input type="date" id="dob" name="dob">
+
+            <label for="ssn">U.S. Social Security Number</label>
+            <input type="text" id="ssn" name="ssn">
+
+            <label for="email">Employee's Email Address</label>
+            <input type="email" id="email" name="email">
+
+            <label for="telephone">Employee's Telephone Number</label>
+            <input type="tel" id="telephone" name="telephone">
+
+            <div class="checkbox-group">
+                <p>I am aware that federal law provides for imprisonment and/or fines for false statements or use of false documents in connection with the completion of this form.</p>
+                <label><input type="checkbox" name="citizenship_status" value="citizen"> A citizen of the United States</label>
+                <label><input type="checkbox" name="citizenship_status" value="noncitizen_national"> A noncitizen national of the United States (See Instructions)</label>
+                <label><input type="checkbox" name="citizenship_status" value="lawful_permanent_resident"> A lawful permanent resident (Enter USCIS or A-Number)</label>
+                <label><input type="checkbox" name="citizenship_status" value="alien_authorized"> An alien authorized to work until (exp. date, if any)</label>
+            </div>
+
+            <label for="uscis_number">USCIS A-Number</label>
+            <input type="text" id="uscis_number" name="uscis_number">
+
+            <label for="form_i94_admission">Form I-94 Admission Number</label>
+            <input type="text" id="form_i94_admission" name="form_i94_admission">
+
+            <label for="foreign_passport">Foreign Passport Number and Country of Issuance</label>
+            <input type="text" id="foreign_passport" name="foreign_passport">
+
+            <label for="signature">Signature of Employee</label>
+            <input type="text" id="signature" name="signature">
+
+            <label for="date_signed">Today's Date (mm/dd/yyyy)</label>
+            <input type="date" id="date_signed" name="date_signed">
+        </fieldset>
+</div>
+    <!-- Section 2 and Section 3 would continue with similar detail -->
+    <div class="container">
+    <fieldset class="form-section">
+    <legend>Section 2: Employer or Authorized Representative Review and Verification</legend>
+    <label for="employee_name_section2">Employee's Name (from Section 1):</label>
+    <input type="text" id="employee_name_section2" name="employee_name_section2">
+
+    <label>Document Title:</label>
+    <input type="text" id="document_title" name="document_title">
+
+    <label>Issuing Authority:</label>
+    <input type="text" id="issuing_authority" name="issuing_authority">
+
+    <label>Document Number:</label>
+    <input type="text" id="document_number" name="document_number">
+
+    <label>Expiration Date (if applicable):</label>
+    <input type="date" id="expiration_date" name="expiration_date">
+
+    <label>Date of Hire (mm/dd/yyyy):</label>
+    <input type="date" id="date_of_hire" name="date_of_hire">
+
+</fieldset>
+    </div>
+    <div class="container">
+    <fieldset class="form-section">
+    <legend>Section 3: Reverification and Rehires</legend>
+    <label for="employee_name_section3">Employee's Name (from Section 1):</label>
+    <input type="text" id="employee_name_section3" name="employee_name_section3">
+
+    <label>New Name (if applicable):</label>
+    <input type="text" id="new_name" name="new_name">
+
+    <label>Document Title:</label>
+    <input type="text" id="reverification_document_title" name="reverification_document_title">
+
+    <label>Document Number:</label>
+    <input type="text" id="reverification_document_number" name="reverification_document_number">
+
+    <label>Expiration Date (if applicable):</label>
+    <input type="date" id="reverification_expiration_date" name="reverification_expiration_date">
+
+</fieldset>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
