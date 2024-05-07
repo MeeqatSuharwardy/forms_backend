@@ -5,6 +5,7 @@ from flask import current_app
 from PIL import Image
 import base64
 import io
+from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required, roles_required
 from io import BytesIO
 from datetime import datetime
 from selenium import webdriver
@@ -162,16 +163,22 @@ def employee_enrollment_form():
 
     return response
 
-@app.route('/credentialing_checklist')
-@cross_origin()
-def credentialing_checklist():
-    return render_template('credentialing_checklist.html')
+
 
 @app.route('/ancialiry')
 @cross_origin()
 def ancialiry():
     return render_template('ancialiry.html')
 
+@app.route('/credentialing_checklist')
+@cross_origin()
+def credentialing_checklist():
+    return render_template('credentialing_checklist.html')
+
+@app.route('/credentialing_comprehensive_checklist')
+@cross_origin()
+def credentialing_comprehensive_checklist():
+    return render_template('credentialing_comprehensive_checklist.html')
 
 @app.route('/i99')
 @cross_origin()
@@ -237,7 +244,7 @@ def submit_emergency_contact_form():
 
     }
     pdfkit.from_string(html_content, pdf_path, options=options)
-    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated."})
+    return jsonify({"success": True, "message": "Form successfully submitted."})
 
 
 @app.route('/submit-employment-form', methods=['POST'])
@@ -335,7 +342,7 @@ def submit_employment_form():
     pdfkit.from_string(html_content, pdf_path, options=options)
 
     # Send the PDF file directly as an attachment
-    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated."})
+    return jsonify({"success": True, "message": "Form successfully submitted."})
 
 
 @app.route('/anti_harassment_discrimination_final', methods=['POST'])
@@ -381,7 +388,7 @@ def anti_harassment_discrimination_final():
         'enable-local-file-access': ''
     }
     pdfkit.from_string(html_content, pdf_path, options=options)
-    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated."})
+    return jsonify({"success": True, "message": "Form successfully submitted."})
 
 
 @app.route('/submit_employment_payroll', methods=['POST'])
@@ -435,7 +442,7 @@ def submit_employment_payroll():
         'enable-local-file-access': ''
     }
     pdfkit.from_string(html_content, pdf_path, options=options)
-    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated."})
+    return jsonify({"success": True, "message": "Form successfully submitted."})
 
 
 @app.route('/receipt_of_company_property', methods=['POST'])
@@ -479,7 +486,7 @@ def receipt_of_company_property():
         'enable-local-file-access': True
     }
     pdfkit.from_string(html_content, pdf_path, options=options)
-    return jsonify({"success": True, "message": "Form successfully submitted and PDF generated."})
+    return jsonify({"success": True, "message": "Form successfully submitted."})
 
 
 def save_signature(data, role, name, path):
@@ -543,8 +550,7 @@ def submit_confidentiality_agreement():
 
     return jsonify({
         "success": True,
-        "message": "Form successfully submitted and PDF generated.",
-        "pdf_url": url_for('static', filename=f'pdfs/{filename}')
+        "message": "Form successfully submitted.",
     })
 
 @app.route('/submit_cellphone_policy', methods=['POST'])
@@ -590,7 +596,7 @@ def submit_cellphone_policy():
 
     return jsonify({
         "success": True,
-        "message": "Form successfully submitted and PDF generated."    })
+        "message": "Form successfully submitted."    })
 
 @app.route('/Employees_Withholding_Certificate', methods=['POST'])
 def submit():
@@ -656,8 +662,7 @@ def submit():
 
     return jsonify({
         "success": True,
-        "message": "Application for employment successfully submitted and PDF generated.",
-        "pdf_url": f"/static/pdfs/{filename}"
+        "message": "Application for employment successfully submitted.",
     })
 
 @app.route('/submit_direct_deposit', methods=['POST'])
@@ -715,7 +720,7 @@ def submit_direct_deposit_form():
     }
     pdfkit.from_string(html_content, pdf_path, options=options)
 
-    return jsonify({"success": True, "message": "Direct deposit authorization submitted and PDF generated.", "pdf_url": url_for('static', filename=f'pdfs/{filename}')})
+    return jsonify({"success": True, "message": "Direct deposit authorization submitted "})
 
 @app.route('/pdf_receipt_of_employee_handbook', methods=['POST'])
 @cross_origin()
@@ -762,7 +767,7 @@ def receipt_of_employeehandbook():
 
     return jsonify({
         "success": True,
-        "message": "Form successfully submitted and PDF generated."    })
+        "message": "Form successfully submitted."    })
 
 @app.route('/list-pdfs')
 @cross_origin()
@@ -774,7 +779,10 @@ def list_pdfs():
         'EmploymentPayroll': os.path.join(current_app.root_path, 'submit_employment_payroll'),
         'ReceiptOfProperty': os.path.join(current_app.root_path, 'receipt_of_company_property'),
         'HippaAgreement': os.path.join(current_app.root_path, 'hippa_agreement'),
-        'CellPhonePolicy': os.path.join(current_app.root_path, 'Cell_Phone_policy')
+        'CellPhonePolicy': os.path.join(current_app.root_path, 'Cell_Phone_policy'),
+        'WithholdingCertificate': os.path.join(current_app.root_path, 'Employee’s_Withholding_Certificate'),
+        'DirectDepositAuthorization': os.path.join(current_app.root_path, 'direct_deposit_authorization'),
+        'ReceiptOfEmployeeHandbook': os.path.join(current_app.root_path, 'receipt_of_employee_handbook')
     }
 
     all_pdfs = []
@@ -808,8 +816,12 @@ DIRECTORY_MAP = {
     'EmploymentPayroll': 'submit_employment_payroll',
     'ReceiptOfProperty': 'receipt_of_company_property',
     'HippaAgreement': 'hippa_agreement',
-    'CellPhonePolicy': 'Cell_Phone_policy'
+    'CellPhonePolicy': 'Cell_Phone_policy',
+    'WithholdingCertificate': 'Employee’s_Withholding_Certificate',
+    'DirectDepositAuthorization': 'direct_deposit_authorization',
+    'ReceiptOfEmployeeHandbook': 'receipt_of_employee_handbook'
 }
+
 
 @app.route('/<category>/<filename>')
 @cross_origin()

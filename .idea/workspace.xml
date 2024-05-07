@@ -5,19 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="731f18bd-3119-4236-bd4d-d67db39b14e1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/static/pdfs/Employee_Enrollment_form.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/pdfs/i-9.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/ancialiry.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/credentialing_checklist.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/i-9.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/pdf_receipt_of_employee_handbook.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/receipt_of_employee_handbook.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/credentialing_comprehensive_checklist.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/pdfs/cell_phone_policy_20240505200531.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/HAP_Employee_Handbook_FINAL .docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/pdf_direct_deposit_authorization.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/pdf_direct_deposit_authorization.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/credentialing_checklist.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/credentialing_checklist.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,20 +45,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/meeqatsuharwardy/USA_Health_Psychiatry/form automation/static/pdfs",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/meeqatsuharwardy/USA_Health_Psychiatry/form automation/static/pdfs&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/static/pdfs" />
@@ -114,7 +105,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -138,7 +129,8 @@
       <workItem from="1714487030112" duration="2233000" />
       <workItem from="1714667353215" duration="3192000" />
       <workItem from="1714677737936" duration="2520000" />
-      <workItem from="1714903974558" duration="63375000" />
+      <workItem from="1714903974558" duration="65149000" />
+      <workItem from="1715078672298" duration="848000" />
     </task>
     <servers />
   </component>
